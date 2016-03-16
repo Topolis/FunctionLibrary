@@ -21,6 +21,3 @@ Functions to generate secure and unique security tokens
 
 ## XML
 Helper functions to handle xml files
-
-## YAML
-Helper functions to handle yml files using PHPs native yaml library and introducing a plugin system
