@@ -1,0 +1,23 @@
+{
+    "name": "topolis/function-library",
+    "description": "Various classes with helper functions",
+    "type": "library",
+    "keywords": [
+        "library",
+        "topolis"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ToBe998",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload" : {
+        "psr-4" : {
+           "Topolis\\" : ""
+        }
+    }
+}
