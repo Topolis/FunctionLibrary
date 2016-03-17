@@ -178,6 +178,7 @@ class Collection {
     public static function add(&$array, $path, $value) {
 
         Collection::addFromPath($array, $path, $value, $key = null);
+        return $array;
     }
     
     public static function unshift(&$array, $value, $key = null){
