@@ -36,9 +36,9 @@ class Bitmask
     */
    public function bit_set($idx) // Set some bit
    {
-      $byte = floor($idx/8);
+      $byte = (int)floor($idx/8);
       $bit = $idx % 8;
-      @$this->data[$byte] = $this->data[$byte] | pow(2,$bit);
+      $this->data[$byte] = $this->data[$byte] | pow(2,$bit);
    }
    
    /**
@@ -47,9 +47,9 @@ class Bitmask
     */
    public function bit_remove($idx) // Remove some bit
    {
-      $byte = floor($idx/8);
+      $byte = (int)floor($idx/8);
       $bit = $idx % 8;
-      @$this->data[$byte] = $this->data[$byte] &~ pow(2,$bit);
+      $this->data[$byte] = $this->data[$byte] &~ pow(2,$bit);
    }
    
    /**
@@ -58,9 +58,9 @@ class Bitmask
     */
    public function bit_toggle($idx) // Toggle some bit
    {
-      $byte = floor($idx/8);
+      $byte = (int)floor($idx/8);
       $bit = $idx % 8;
-      @$this->data[$byte] = $this->data[$byte] ^ pow(2,$bit);
+      $this->data[$byte] = $this->data[$byte] ^ pow(2,$bit);
    }
    
    /**
@@ -70,9 +70,9 @@ class Bitmask
     */
    public function bit_get($idx) // Read some bit
    {
-      $byte = floor($idx/8);
+      $byte = (int)floor($idx/8);
       $bit = $idx % 8;
-      return ((@$this->data[$byte] & pow(2,$bit)) > 0)+0;
+      return (($this->data[$byte] & pow(2,$bit)) > 0)+0;
    }
 
    /**
@@ -219,7 +219,7 @@ class Bitmask
       $data = array();
       $len = strlen($temp);
       for ($i=0;$i<$len;$i+=2)
-         $data[$i/2]= hexdec(substr($temp,$i,2));
+         $data[(int)($i/2)]= hexdec(substr($temp,$i,2));
       return $data;
    }
    
