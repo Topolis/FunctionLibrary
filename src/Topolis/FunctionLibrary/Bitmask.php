@@ -85,7 +85,7 @@ class Bitmask
    
    /**
     * perform and operation with another Binary object
-    * @param Binary $Binary
+    * @param Bitmask $Binary
     */
    public function set_and(Bitmask $Binary)
    {
@@ -98,7 +98,7 @@ class Bitmask
 
    /**
     * Perform or operation with another Binary object
-    * @param Binary $Binary
+    * @param Bitmask $Binary
     */
    public function set_or(Bitmask $Binary)
    {
@@ -124,7 +124,7 @@ class Bitmask
 
    /**
     * Perform nand operation with another Binary object
-    * @param Binary $Binary
+    * @param Bitmask $Binary
     */
    public function set_nand(Bitmask $Binary)
    {
@@ -216,6 +216,7 @@ class Bitmask
     */
    protected function hex2data($temp)
    {
+      $data = array();
       $len = strlen($temp);
       for ($i=0;$i<$len;$i+=2)
          $data[$i/2]= hexdec(substr($temp,$i,2));
