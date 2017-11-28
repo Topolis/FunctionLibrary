@@ -5,17 +5,18 @@ namespace Topolis\FunctionLibrary;
 use \Exception;
 
 class Collection {
-	
+
     /**
      * get a value from a multi dimensional tree-like array structure via a path string (ex.: "folder.folder.key")
-     * @param array $array       array to search
-     * @param string $path       path to traverse
-     * @param string $seperator  (Optional) seperator in path. Default: "."
+     * @param array $array array to search
+     * @param string $path path to traverse
+     * @param string $separator (Optional) separator in path. Default: "."
+     * @return array|mixed
      * @throws Exception         if a node from $path is not found in $array
      */
-	public static function getFromPath($array, $path, $seperator = "."){
+	public static function getFromPath($array, $path, $separator = "."){
 		
-        $nodes = explode($seperator, $path);
+        $nodes = explode($separator, $path);
         while($path && count($nodes) > 0){
             $node = array_shift($nodes);
             
@@ -35,10 +36,10 @@ class Collection {
      * @param array $array       array to search
      * @param string $path       path to traverse
      * @param mixed $value       value to set. (if you set an array, it will be traversable via path too)
-     * @param string $seperator  (Optional) seperator in path. Default: "."
+     * @param string $separator  (Optional) separator in path. Default: "."
      */
-	public static function setFromPath(&$array, $path, $value, $seperator = "."){
-        $nodes = explode($seperator, $path);
+	public static function setFromPath(&$array, $path, $value, $separator = "."){
+        $nodes = explode($separator, $path);
         $array = self::setFromPath_r($array, $nodes, $value);
     }
     protected static function setFromPath_r($array, &$nodes, $value){
@@ -64,13 +65,13 @@ class Collection {
      * @param string $path        path to traverse to target array
      * @param mixed  $value       value to set. (if you set an array, it will be traversable via path too)
      * @param mixed  $key         (Optional) key to use instead of auto incremented numeric key. Default: null
-     * @param string $seperator   (Optional) seperator in path. Default: "."
+     * @param string $separator   (Optional) separator in path. Default: "."
      * @throws \Exception
      */
-	public static function addFromPath(&$array, $path, $value, $key = null, $seperator = "."){
+	public static function addFromPath(&$array, $path, $value, $key = null, $separator = "."){
         
 	    try{
-	        $target = self::getFromPath($array, $path, $seperator);
+	        $target = self::getFromPath($array, $path, $separator);
 	    } catch(Exception $e) {
 	        $target = array();
 	    }
@@ -83,7 +84,7 @@ class Collection {
         else
             $target[] = $value;
             
-        self::setFromPath($array, $path, $target, $seperator);
+        self::setFromPath($array, $path, $target, $separator);
     }
     
     /**
@@ -107,15 +108,15 @@ class Collection {
         
         return $array;
     }
-    
+
     /**
      * sort an multidimensional array by any of it's fields and return sorted array
      * ex.: $sorted = Utility::multisort($data, 'volume', SORT_DESC, 'edition', SORT_ASC);
      * IMPORTANT: This function uses mutlisort and will reindex numeric keys !
-     * @param array $data       array to sort      
-     * @param string $field     name of field to sort by
-     * @param int $direction    SORT_DESC or SORT_ASC constant
-     * @return array 
+     * @return array
+     * @internal param array $data array to sort
+     * @internal param string $field name of field to sort by
+     * @internal param int $direction SORT_DESC or SORT_ASC constant
      */
     public static function multisort(){
         $args = func_get_args();
@@ -137,8 +138,10 @@ class Collection {
 
     /**
      * get an element from the array (or path) and return $default if not set
-     * @param array $path            array index or path
-     * @param mixed $default        default value
+     * @param $array
+     * @param string $path
+     * @param mixed $default default value
+     * @return array|mixed|null
      */
     public static function get($array, $path = null, $default = null){
     	try{
@@ -151,8 +154,10 @@ class Collection {
 
     /**
      * set an element from the array (or path)
-     * @param array $path            array index or path
-     * @param mixed $default        default value
+     * @param $array
+     * @param string $path
+     * @param $value
+     * @return mixed
      */
     public static function set(&$array, $path, $value){
         Collection::setFromPath($array, $path, $value);
@@ -161,16 +166,19 @@ class Collection {
 
     /**
      * delete an element from the array (or path)
-     * @param array $path            array index or path
+     * @param $array
+     * @param string $path
+     * @param string $separator (Optional)
+     * @return mixed
      */
-    public static function remove(&$array, $path, $seperator = "."){
-        $nodes = explode($seperator, $path);
+    public static function remove(&$array, $path, $separator = "."){
+        $nodes = explode($separator, $path);
         $key = array_pop($nodes);
-        $parent = implode($seperator, $nodes);
+        $parent = implode($separator, $nodes);
 
-        $siblings = self::getFromPath($array, $parent, $seperator);
+        $siblings = self::getFromPath($array, $parent, $separator);
         unset($siblings[$key]);
-        self::setFromPath($array, $parent, $siblings, $seperator);
+        self::setFromPath($array, $parent, $siblings, $separator);
 
         return $array;
     }
@@ -253,8 +261,8 @@ class Collection {
     /**
      * Implode array like implode() but also display keys.
      * @param array $array
-     * @param string $separatorAssign         (Optional) Seperator between key and value. Default: ": "
-     * @param string $separatorElement        (Optional) Seperator between elements. Default: ", "
+     * @param string $separatorAssign         (Optional) separator between key and value. Default: ": "
+     * @param string $separatorElement        (Optional) separator between elements. Default: ", "
      * @param string $encapsulation           (Optional) Value encapsulation. Default: ""
      * @return string
      */
